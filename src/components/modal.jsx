@@ -8,7 +8,7 @@ class UsernameModal extends React.Component{
     this.textChange = this.textChange.bind(this);
     this.state = {
       showModal: false,
-      textValue: 'Username',
+      textValue: 'Crazy Russian',
     }
   }
 
