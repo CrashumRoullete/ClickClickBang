@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import axios from 'axios';
 import { Link } from 'react-router';
+import io from 'socket.io-client';
 
 class UsernameModal extends React.Component{
   constructor(props) {
@@ -20,9 +20,13 @@ class UsernameModal extends React.Component{
   }
 
   close() {
-    this.setState({ showModal: false });
-    axios.post('http://localhost:5000', {
-      username: this.state.textValue
+    var textValue = this.state.textValue
+    var socket = io('http://localhost:5000')
+    socket.on('connect', function() {
+      socket.emit('join room', {
+        id: socket.id,
+        username: textValue
+      })
     })
   }
 

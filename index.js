@@ -23,6 +23,9 @@ const sockets = []
 
 io.on('connection', function (socket) {
   sockets.push(socket)
+  socket.on('disconnect', function () {
+    // Delete from database
+  })
   socket.on('join room', function (data) {
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         if (err) console.log(err)
@@ -35,6 +38,7 @@ io.on('connection', function (socket) {
             collection.insertOne(
               {
                 id: data.id,
+                username: data.username,
               },
               (err, result) => {
                 if (err) console.log(err)
