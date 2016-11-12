@@ -11,6 +11,7 @@ class Game extends React.Component{
       username: '',
       shots: 6,
       deadlyBullet: 1,
+      dead: false,
     }
   }
 
@@ -23,7 +24,11 @@ class Game extends React.Component{
   }
 
   reduceShots() {
-    this.setState({ shots: this.state.shots - 1 });
+    if (this.state.deadlyBullet === this.state.shots) {
+      this.setState({ dead: true });
+    } else {
+      this.setState({ shots: this.state.shots - 1 });
+    }
   }
 
   render() {
@@ -34,13 +39,18 @@ class Game extends React.Component{
           <p>Hello {this.state.username}</p>
         </div>
         <div id="shots">
-        Shots Remaining: {this.state.shots}
+          Shots Remaining: {this.state.shots}
         </div>
         <RouletteButton
         bullet={this.state.deadlyBullet}
         reduceShots={this.reduceShots}
         shot={this.state.shots}
         />
+        {
+          this.state.dead
+          ? <h3>BANG</h3>
+          : null
+        }
       </div>
     )
   }
