@@ -14,6 +14,9 @@ app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })
 
+const sockets = []
+
 io.on('connection', function (socket) {
+  sockets.push(socket)
   socket.emit('news', { hello: 'world' });
 });
