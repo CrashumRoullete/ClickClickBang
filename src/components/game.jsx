@@ -1,5 +1,6 @@
 import React from 'react';
 import RouletteButton from './rouletteButton';
+import io from 'socket.io-client';
 
 class Game extends React.Component{
   constructor(props) {
@@ -15,6 +16,9 @@ class Game extends React.Component{
 
   componentWillMount() {
     this.setState({ deadlyBullet: Math.floor(Math.random() * 6 + 1) });
+    var socket = io('http://localhost:5000')
+    socket.on('connect', function() {
+    })
   }
 
   reduceShots() {
