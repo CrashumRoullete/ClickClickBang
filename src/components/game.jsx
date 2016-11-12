@@ -20,10 +20,12 @@ class Game extends React.Component{
   }
 
   componentDidMount() {
-    const req = new XMLHttpRequest();
-    req.addEventListener('load', this.onMongoData);
-    req.open('GET', 'http://localhost:5000/data');
-    req.send();
+    setInterval(() => {
+      const req = new XMLHttpRequest();
+      req.addEventListener('load', this.onMongoData);
+      req.open('GET', 'http://localhost:5000/data');
+      req.send();
+    }, 1000)
   }
 
   onMongoData(data) {
