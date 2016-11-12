@@ -7,6 +7,7 @@ class LandingPage extends Component {
   render() {
     return (
       <div className="App">
+        <div className="header-title">CRASHUM ROULETTE</div>
         <div id="cylinder">
           <div className="sculpt one"></div>
           <div className="sculpt two"></div>
