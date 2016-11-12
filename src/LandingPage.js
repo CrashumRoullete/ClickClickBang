@@ -7,13 +7,23 @@ class LandingPage extends Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+        <div id="cylinder">
+          <div className="sculpt one"></div>
+          <div className="sculpt two"></div>
+          <div className="sculpt three"></div>
+          <div className="sculpt four"></div>
+          <div className="sculpt five"></div>
+          <div className="sculpt six"></div>
+
+          <div className="ring center"></div>
+
+          <div className="chamber one"><div className="bullet"><div className="ring"></div></div></div>
+          <div className="chamber two"><div className="bullet"><div className="ring"></div></div></div>
+          <div className="chamber three"><div className="bullet"><div className="ring"></div></div></div>
+          <div className="chamber four"><div className="bullet"><div className="ring"></div></div></div>
+          <div className="chamber five"><div className="bullet"><div className="ring"></div></div></div>
+          <div className="chamber six"><div className="bullet"><div className="ring"></div></div></div>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
         <Link to="/game">Game</Link>
       </div>
     );
