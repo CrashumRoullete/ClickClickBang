@@ -4,7 +4,6 @@ import RouletteButton from './rouletteButton';
 class Game extends React.Component{
   constructor(props) {
     super(props);
-    this.getUsername = this.getUsername.bind(this);
     this.reduceShots = this.reduceShots.bind(this);
     this.state = {
       username: '',
