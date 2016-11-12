@@ -17,6 +17,7 @@ class UsernameModal extends React.Component{
   }
 
   close() {
+    this.props.getUsername(this.state.textValue);
     this.setState({ showModal: false });
   }
 
