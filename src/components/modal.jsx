@@ -7,6 +7,7 @@ class UsernameModal extends React.Component{
     super(props);
     this.close = this.close.bind(this);
     this.textChange = this.textChange.bind(this);
+    this.onFocus = this.onFocus.bind(this);
     this.state = {
       showModal: false,
       textValue: 'Crazy Russian',
@@ -21,6 +22,10 @@ class UsernameModal extends React.Component{
     this.setState({ showModal: false });
   }
 
+  onFocus() {
+    this.setState({ textValue: '' });
+  }
+
   textChange(event){
     this.setState({ textValue: event.target.value });
   }
@@ -33,7 +38,7 @@ class UsernameModal extends React.Component{
             <Modal.Title>Input A Username</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <input type="text" value={this.state.textValue} onChange={this.textChange} />
+            <input type="text" value={this.state.textValue} onFocus={this.onFocus} onChange={this.textChange} />
           </Modal.Body>
           <Modal.Footer>
             <Link to="/game">
