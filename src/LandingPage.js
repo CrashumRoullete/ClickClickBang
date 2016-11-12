@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import './App.css';
 import UsernameModal from './components/modal';
-import { Modal, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 class LandingPage extends Component {
   constructor(){
