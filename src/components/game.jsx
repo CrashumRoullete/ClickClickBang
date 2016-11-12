@@ -14,9 +14,8 @@ class Game extends React.Component{
     }
   }
 
-  componentDidMount() {
-    const bullet = Math.floor(Math.random() * 6 + 1);
-    this.setState({ deadlyBullet: bullet });
+  componentWillMount() {
+    this.setState({ deadlyBullet: Math.floor(Math.random() * 6 + 1) });
   }
 
   getUsername(name) {
@@ -37,7 +36,11 @@ class Game extends React.Component{
         <div id="shots">
         Shots Remaining: {this.state.shots}
         </div>
-        <RouletteButton count={this.state.shots} reduceShots={this.reduceShots} />
+        <RouletteButton
+        bullet={this.state.deadlyBullet}
+        reduceShots={this.reduceShots}
+        shot={this.state.shots}
+        />
       </div>
     )
   }
