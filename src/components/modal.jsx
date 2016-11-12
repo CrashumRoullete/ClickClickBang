@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { Link } from 'react-router';
 import io from 'socket.io-client';
 
 class UsernameModal extends React.Component{
@@ -28,6 +27,8 @@ class UsernameModal extends React.Component{
         username: textValue
       })
     })
+    this.setState({ showModal: false });
+    this.props.secondModal();
   }
 
   onFocus() {
@@ -49,9 +50,7 @@ class UsernameModal extends React.Component{
             <input type="text" value={this.state.textValue} onFocus={this.onFocus} onChange={this.textChange} />
           </Modal.Body>
           <Modal.Footer>
-            <Link to="/game">
-              <Button bsStyle="primary" onClick={this.close}>Save</Button>
-            </Link>
+            <Button bsStyle="primary" onClick={this.close}>Save</Button>
           </Modal.Footer>
         </Modal>
       </div>

@@ -1,21 +1,31 @@
 import React, { Component } from 'react';
+import { Button } from 'react-bootstrap';
 import './App.css';
 import UsernameModal from './components/modal';
-import { Button } from 'react-bootstrap';
+import ConfirmModal from './components/confirmModal';
 
 class LandingPage extends Component {
   constructor(){
     super()
-    this.showModal = this.showModal.bind(this)
+    this.showModal = this.showModal.bind(this);
+    this.secondModal = this.secondModal.bind(this);
     this.state = {
-          showModal: false,
-     }
+      showModal: false,
+      confirmModal: false,
+    }
   }
+
   showModal(){
     this.setState({
       showModal: true
     })
   }
+
+  secondModal() {
+    this.setState({ showModal: false });
+    this.setState({ confirmModal: true });
+  }
+
   render() {
     return (
       <div className="App">
@@ -42,8 +52,13 @@ class LandingPage extends Component {
         </div>
         <Button onClick={this.showModal}>Enter Game</Button>
         {this.state.showModal ?
-          <UsernameModal />
+          <UsernameModal secondModal={this.secondModal}/>
           : null}
+        {
+          this.state.confirmModal
+          ? <ConfirmModal />
+          : null
+        }
       </div>
     );
   }

@@ -1,13 +1,15 @@
 import React from 'react';
 import RouletteButton from './rouletteButton';
 import io from 'socket.io-client';
+import UserList from './userList';
 
 class Game extends React.Component{
   constructor(props) {
     super(props);
     this.reduceShots = this.reduceShots.bind(this);
+    this.onMongoData = this.onMongoData.bind(this);
     this.state = {
-      username: '',
+      users: '',
       shots: 6,
       deadlyBullet: 1,
       dead: false,
@@ -19,6 +21,18 @@ class Game extends React.Component{
     var socket = io('http://localhost:5000')
     socket.on('connect', function() {
     })
+  }
+
+  componentDidMount() {
+    const req = new XMLHttpRequest();
+    req.addEventListener('load', this.onMongoData);
+    req.open('GET', 'http://localhost:5000/data');
+    req.send();
+  }
+
+  onMongoData(data) {
+    let people = JSON.parse(data.currentTarget.response)
+    this.setState({ users: people });
   }
 
   reduceShots() {
@@ -33,7 +47,8 @@ class Game extends React.Component{
     return(
       <div>
         <div id="users">
-          <p>Hello {this.state.username}</p>
+          <h3>Users</h3>
+          <UserList users={this.state.users} />
         </div>
         <div id="shots">
           Shots Remaining: {this.state.shots}
