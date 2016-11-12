@@ -1,4 +1,5 @@
 import React from 'react';
+import UsernameModal from './modal';
 
 class Game extends React.Component{
   constructor(props) {
@@ -10,6 +11,7 @@ class Game extends React.Component{
   render() {
     return(
       <div>
+        <UsernameModal />
         <p>{this.state.hello}</p>
       </div>
     )
