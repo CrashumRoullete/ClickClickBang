@@ -4,7 +4,7 @@ var server = require('http').Server(app)
 var io = require('socket.io')(server)
 var config = require('./config.js')
 
-app.set('port', (process.env.PORT || 5000))
+app.set('port', (process.env.PORT || 3000))
 app.use(express.static(__dirname + '/public'))
 
 // app.get('/', function(request, response) {

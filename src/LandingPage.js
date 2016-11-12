@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import logo from './logo.svg';
 import './App.css';
 
 class LandingPage extends Component {
