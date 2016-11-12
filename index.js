@@ -23,9 +23,6 @@ const sockets = []
 
 io.on('connection', function (socket) {
   sockets.push(socket)
-  socket.on('disconnect', function () {
-    // Delete from database
-  })
   socket.on('join room', function (data) {
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         if (err) console.log(err)
@@ -35,7 +32,6 @@ io.on('connection', function (socket) {
             if (err) return console.log(err)
             console.log('Successfully authenticated into the database')
             const collection = db.collection('game')
-            console.log(data)
             collection.insertOne(
               {
                 id: data.id,
@@ -49,4 +45,52 @@ io.on('connection', function (socket) {
         }
       })
   })
+  socket.on('disconnect', function(data) {
+    MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
+      if (err) console.log(err)
+      if (!err) {
+        console.log('successfully connected to the database')
+        db.authenticate(config.username, config.password, (err, res) => {
+          if (err) return console.log(err)
+          console.log('Successfully authenticated into the database')
+          const collection = db.collection('game')
+          collection.remove({ id: socket.id})
+        })
+      }
+    })
+  })
 })
+
+
+app.get('/data', (req, res) => {
+  MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
+    db.authenticate(config.username, config.password, (err, responce) => {
+      var collection = db.collection('game');
+      collection.find().toArray(function(err, docs) {
+        res.send(docs)
+      })
+    })
+  });
+})
+
+
+
+
+// MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
+//  if (err) console.log(err)
+//  if (!err) {
+//    console.log('successfully connected to the database')
+//    db.authenticate(config.username, config.password, (err, res) => {
+//      if (err) return console.log(err)
+//      console.log('Successfully authenticated into the database')
+
+//     db.findAllCards((data) => {
+//       if(data) {
+//         res.set('Access-Control-Allow-Origin', '*');
+//         return res.json(data);
+//       }
+//     });
+//      db.close()
+//    })
+//  }
+// })

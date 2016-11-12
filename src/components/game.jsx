@@ -5,6 +5,7 @@ class Game extends React.Component{
   constructor(props) {
     super(props);
     this.reduceShots = this.reduceShots.bind(this);
+    this.onMongoData = this.onMongoData.bind(this);
     this.state = {
       username: '',
       shots: 6,
@@ -15,6 +16,19 @@ class Game extends React.Component{
 
   componentWillMount() {
     this.setState({ deadlyBullet: Math.floor(Math.random() * 6 + 1) });
+  }
+
+  componentDidMount() {
+    const req = new XMLHttpRequest();
+    req.addEventListener('load', this.onMongoData);
+    req.open('GET', 'http://localhost:5000/data');
+    req.send();
+  }
+
+  onMongoData(data) {
+    console.log(JSON.parse(data.currentTarget.response));
+    // let formattedData = JSON.parse(data.currentTarget.response);
+    // console.log(formattedData)
   }
 
   reduceShots() {
