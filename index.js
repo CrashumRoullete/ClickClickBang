@@ -4,9 +4,18 @@ const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const config = require('./config.js')
 const MongoClient = require('mongodb').MongoClient
+const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const PORT = process.env.PORT || 5000;
 app.use(express.static(__dirname + '/public'))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+app.use(cors())
+
+app.post('/', (req, res) => {
+  console.log(req.body)
+})
 
 server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
 

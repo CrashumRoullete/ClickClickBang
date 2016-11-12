@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 class UsernameModal extends React.Component{
   constructor(props) {
@@ -17,8 +18,10 @@ class UsernameModal extends React.Component{
   }
 
   close() {
-    this.props.getUsername(this.state.textValue);
     this.setState({ showModal: false });
+    axios.post('http://localhost:5000', {
+      username: this.state.textValue
+    })
   }
 
   textChange(event){
