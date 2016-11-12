@@ -32,7 +32,9 @@ class UsernameModal extends React.Component{
           <Modal.Header>
             <Modal.Title>Input A Username</Modal.Title>
           </Modal.Header>
-          <input type="text" value={this.state.textValue} onChange={this.textChange} />
+          <Modal.Body>
+            <input type="text" value={this.state.textValue} onChange={this.textChange} />
+          </Modal.Body>
           <Modal.Footer>
             <Button bsStyle="primary" onClick={this.close}>Save</Button>
           </Modal.Footer>
