@@ -25,7 +25,10 @@ class LandingPage extends Component {
           <div className="chamber five"><div className="bullet"><div className="ring"></div></div></div>
           <div className="chamber six"><div className="bullet"><div className="ring"></div></div></div>
         </div>
-        <Link to="/game">Game</Link>
+        <div className="warning">
+          <p className="warning-text">WARNING! If you lose then we get to crash your browser. THIS IS YOUR ONLY WARNING. Please make sure that you do not have any important pages open in the background when deciding to play this consequential game... Just hope that you land on an empty chamber.</p>
+        </div>
+        <Link to="/game">Enter Game</Link>
       </div>
     );
   }
