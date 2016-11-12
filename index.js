@@ -35,6 +35,7 @@ io.on('connection', function (socket) {
             if (err) return console.log(err)
             console.log('Successfully authenticated into the database')
             const collection = db.collection('game')
+            console.log(data)
             collection.insertOne(
               {
                 id: data.id,
