@@ -1,5 +1,6 @@
 import React from 'react';
 import RouletteButton from './rouletteButton';
+import UserList from './userList';
 
 class Game extends React.Component{
   constructor(props) {
@@ -7,7 +8,7 @@ class Game extends React.Component{
     this.reduceShots = this.reduceShots.bind(this);
     this.onMongoData = this.onMongoData.bind(this);
     this.state = {
-      username: '',
+      users: '',
       shots: 6,
       deadlyBullet: 1,
       dead: false,
@@ -26,9 +27,8 @@ class Game extends React.Component{
   }
 
   onMongoData(data) {
-    console.log(JSON.parse(data.currentTarget.response));
-    // let formattedData = JSON.parse(data.currentTarget.response);
-    // console.log(formattedData)
+    let people = JSON.parse(data.currentTarget.response)
+    this.setState({ users: people });
   }
 
   reduceShots() {
@@ -43,7 +43,8 @@ class Game extends React.Component{
     return(
       <div>
         <div id="users">
-          <p>Hello {this.state.username}</p>
+          <h3>Users</h3>
+          <UserList users={this.state.users} />
         </div>
         <div id="shots">
           Shots Remaining: {this.state.shots}
