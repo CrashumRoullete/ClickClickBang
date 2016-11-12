@@ -1,5 +1,4 @@
 import React from 'react';
-import UsernameModal from './modal';
 import RouletteButton from './rouletteButton';
 
 class Game extends React.Component{
@@ -19,10 +18,6 @@ class Game extends React.Component{
     this.setState({ deadlyBullet: Math.floor(Math.random() * 6 + 1) });
   }
 
-  getUsername(name) {
-    this.setState({ username: name });
-  }
-
   reduceShots() {
     if (this.state.deadlyBullet === this.state.shots) {
       this.setState({ dead: true });
@@ -35,7 +30,6 @@ class Game extends React.Component{
     return(
       <div>
         <div id="users">
-          <UsernameModal getUsername={this.getUsername}/>
           <p>Hello {this.state.username}</p>
         </div>
         <div id="shots">
