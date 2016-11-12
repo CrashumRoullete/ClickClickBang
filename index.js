@@ -13,6 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
+app.get('/', (req, res) => {
+  res.send(PORT)
+})
+
 app.post('/', (req, res) => {
   console.log(req.body)
 })
