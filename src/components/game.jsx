@@ -1,11 +1,9 @@
 import React from 'react';
-import UsernameModal from './modal';
 import RouletteButton from './rouletteButton';
 
 class Game extends React.Component{
   constructor(props) {
     super(props);
-    this.getUsername = this.getUsername.bind(this);
     this.reduceShots = this.reduceShots.bind(this);
     this.state = {
       username: '',
@@ -17,10 +15,6 @@ class Game extends React.Component{
 
   componentWillMount() {
     this.setState({ deadlyBullet: Math.floor(Math.random() * 6 + 1) });
-  }
-
-  getUsername(name) {
-    this.setState({ username: name });
   }
 
   reduceShots() {
@@ -35,7 +29,6 @@ class Game extends React.Component{
     return(
       <div>
         <div id="users">
-          <UsernameModal getUsername={this.getUsername}/>
           <p>Hello {this.state.username}</p>
         </div>
         <div id="shots">

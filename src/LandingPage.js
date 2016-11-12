@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import './App.css';
+import UsernameModal from './components/modal';
+import { Modal, Button } from 'react-bootstrap';
 
 class LandingPage extends Component {
+  constructor(){
+    super()
+    this.showModal = this.showModal.bind(this)
+    this.state = {
+          showModal: false,
+     }
+  }
+  showModal(){
+    this.setState({
+      showModal: true
+    })
+  }
   render() {
     return (
       <div className="App">
@@ -27,7 +41,10 @@ class LandingPage extends Component {
         <div className="warning">
           <p className="warning-text">WARNING! If you lose then we get to crash your browser. THIS IS YOUR ONLY WARNING. Please make sure that you do not have any important pages open in the background when deciding to play this consequential game... Just hope that you land on an empty chamber.</p>
         </div>
-        <Link to="/game">Enter Game</Link>
+        <Button onClick={this.showModal}>Enter Game</Button>
+        {this.state.showModal ?
+          <UsernameModal />
+          : null}
       </div>
     );
   }

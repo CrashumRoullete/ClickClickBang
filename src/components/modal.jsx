@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 class UsernameModal extends React.Component{
   constructor(props) {
@@ -17,7 +18,6 @@ class UsernameModal extends React.Component{
   }
 
   close() {
-    this.props.getUsername(this.state.textValue);
     this.setState({ showModal: false });
   }
 
@@ -36,7 +36,9 @@ class UsernameModal extends React.Component{
             <input type="text" value={this.state.textValue} onChange={this.textChange} />
           </Modal.Body>
           <Modal.Footer>
-            <Button bsStyle="primary" onClick={this.close}>Save</Button>
+            <Link to="/game">
+              <Button bsStyle="primary" onClick={this.close}>Save</Button>
+            </Link>
           </Modal.Footer>
         </Modal>
       </div>
