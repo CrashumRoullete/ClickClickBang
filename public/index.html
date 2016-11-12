@@ -13,11 +13,10 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.1/socket.io.min.js"></script>
   <script>
-    var socket = io()
+    var socket = io('http://localhost:5000')
     socket.on('connect', function() {
-      var id = socket.io.engine.id
       socket.emit('join room', {
-        username: socket.id,
+        id: socket.id,
       })
     })
   </script>
