@@ -95,7 +95,7 @@ class Game extends React.Component{
         this.state.gameOn
         ?
         <div>
-          <h2>You are facing off against {this.state.player2}</h2>
+          <h2>You are facing off against <span id="player-name">{this.state.player2}</span></h2>
           <div id="shots">
             <p>Bullets Remaining: {this.state.shots}</p>
           </div>

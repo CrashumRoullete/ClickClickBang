@@ -35,6 +35,19 @@
   padding: 10px;
 }
 
+#player-name{
+  font-family: 'Allerta Stencil', sans-serif;
+  font-size: 1.5em;
+}
+
+#revolver-svg{
+  width: 25%;
+}
+
+.btn-danger{
+  width: 30%;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

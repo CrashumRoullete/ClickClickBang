@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import revolver from '../revolver.svg'
 
 class RouletteButton extends React.Component{
   constructor(props) {
@@ -18,7 +19,7 @@ class RouletteButton extends React.Component{
 
   render() {
     return(
-      <Button bsStyle="danger" onClick={this.onClick}>Pull the Trigger</Button>
+      <Button bsStyle="danger" onClick={this.onClick}><img id="revolver-svg" src={revolver} /> Pull the Trigger</Button>
     )
   }
 }
