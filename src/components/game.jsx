@@ -115,7 +115,7 @@ class Game extends React.Component{
         !this.state.gameOn
         ?
         <div id="users">
-          <h3>Users</h3>
+          <h3>Queue</h3>
           <UserList users={this.state.users} />
         </div>
         : null

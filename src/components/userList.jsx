@@ -17,9 +17,9 @@ class UserList extends React.Component{
   render() {
     return(
       <div id="user-list">
-        <ol>
+        <ul>
           {this.renderList()}
-        </ol>
+        </ul>
       </div>
     )
   }
