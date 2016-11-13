@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 import UserList from './userList';
 import UsernameModel from './modal';
 import './../index.css';
-const bang = require('../../build/bang.wav');
+const bang = require('../bang.wav');
 //main game
 
 class Game extends React.Component{

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import revolver from '../revolver.svg';
-const click = require('../../build/trigger.wav');
-const bang = require('../../build/bang.wav');
+const click = require('../trigger.wav');
+const bang = require('../bang.wav');
 
 
 class RouletteButton extends React.Component{
