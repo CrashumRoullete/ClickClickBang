@@ -9,14 +9,14 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const PORT = 5000;
-app.use(express.static(__dirname + '/public'))
+// app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.get('/', (req, res) => {
-  res.send(PORT)
-})
+// app.get('/', (req, res) => {
+//   res.send(PORT)
+// })
 
 app.post('/', (req, res) => {
   console.log(req.body)
