@@ -48,6 +48,7 @@ class Game extends React.Component{
 
     socket.on('yourTurn', function(data) {
       that.setState({ yourTurn: true });
+      that.setState({ shots: data.bullets });
     })
 
     array.push(socket);
@@ -60,11 +61,7 @@ class Game extends React.Component{
   }
 
   reduceShots() {
-    if (this.state.deadlyBullet === this.state.shots) {
-      this.setState({ dead: true });
-    } else {
-      this.setState({ shots: this.state.shots - 1 });
-    }
+    this.setState({ shots: this.state.shots - 1 });
   }
 
   notYourTurn() {

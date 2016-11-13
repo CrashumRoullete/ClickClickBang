@@ -10,6 +10,7 @@ class RouletteButton extends React.Component{
 
   onClick() {
     let that = this;
+    that.props.reduceShots();
     that.props.notYourTurn();
     var thatSocket = this.props.socket[0];
     thatSocket.emit('buttonClicked', { id: thatSocket.id })
