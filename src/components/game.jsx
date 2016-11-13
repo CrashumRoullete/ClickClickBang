@@ -29,7 +29,7 @@ class Game extends React.Component{
     setInterval(() => {
       const req = new XMLHttpRequest();
       req.addEventListener('load', this.onMongoData);
-      req.open('GET', `${window.location.origin}/data`);
+      req.open('GET', `http://clickclickbang.2016.nodeknockout.com/data`);
       req.send();
     }, 1000)
 
@@ -37,7 +37,7 @@ class Game extends React.Component{
 
     let that = this;
 
-    var socket = io(`${window.location.origin}`)
+    var socket = io(`http://clickclickbang.2016.nodeknockout.com/`)
     socket.on('join room', function(param) {
       that.setState({ player1: socket.id, player2: param.opponentId });
       that.setState({ gameOn: true });
