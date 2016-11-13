@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express')
 const app = express()
 const server = require('http').Server(app)
@@ -36,10 +37,17 @@ io.on('connection', function (socket) {
     sockets[sockets.indexOf(socket)].username = data.username
     if (sockets.length % 2 === 0 && sockets.length) {
       MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
-        console.log(sockets[0]);
         db.authenticate(config.username, config.password, (err, response) => {
-          if (err) console.log(err, 'ERR CATCH');
-          games.push({ player1: sockets[0].id, player2: sockets[1].id });
+          if (err) return console.log(err);
+          let obj = {
+            socketOne: sockets[0],
+            socketTwo: sockets[1],
+            player1: sockets[0].id,
+            player2: sockets[1].id,
+            bullets: 6
+          };
+          games.push(obj)
+          console.log(games)
           var collection = db.collection('game');
             collection.update({
               id: sockets[0].id,
@@ -57,10 +65,11 @@ io.on('connection', function (socket) {
             });
           sockets[0].emit('join room', {
             opponentId: sockets[1].id
-          })
+          });
           sockets[1].emit('join room', {
             opponentId: sockets[0].id
-          })
+          });
+          sockets[Math.round(Math.random())].emit('yourTurn');
           sockets.shift()
           sockets.shift()
         })
@@ -98,13 +107,29 @@ io.on('connection', function (socket) {
         db.authenticate(config.username, config.password, (err, res) => {
           if (err) return console.log(err)
           const collection = db.collection('game')
-          collection.remove({ id: socket.id})
+          collection.remove({ id: socket.id })
         })
       }
     })
   })
   socket.on('buttonClicked', function(data) {
-    console.log(data);
+    for (let i = 0; i < games.length; i++) {
+      if (games[i].player1 === data.id) {
+        games[i].bullets--
+        games[i].socketTwo.emit('yourTurn', {
+          player1: games[i].player1,
+          player2: games[i].player2,
+          bullets: games[i].bullets,
+        })
+      } else if (games[i].player2 === data.id) {
+        games[i].bullets--
+        games[i].socketOne.emit('yourTurn', {
+          player1: games[i].player2,
+          player2: games[i].player1,
+          bullets: games[i].bullets,
+        })
+      }
+    }
   })
 })
 
