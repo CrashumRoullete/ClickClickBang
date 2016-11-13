@@ -71,6 +71,33 @@ class Game extends React.Component{
     if (this.state.deadlyBullet === this.state.shots) {
       this.setState({ dead: true });
       this.state.testSocket[0].emit('rip', { id: this.state.testSocket[0].id });
+      setTimeout(function() {
+      var punishments = [function(){
+        var urls = [
+          'https://www.youtube.com/watch?v=q6EoRBvdVPQ&list=PL7XlqX4npddfrdpMCxBnNZXg2GFll7t5y',
+          'https://www.youtube.com/watch?v=5DqB0hx-H4E',
+          'http://superlogout.com/',
+          'https://www.youtube.com/watch?v=pw5wR9u_phQ',
+          'https://www.youtube.com/watch?v=emsJNFsaZ6s',
+          'https://www.youtube.com/watch?v=WFSh6vkwlb8',
+          'https://www.youtube.com/watch?v=seKaU-qQuts',
+          'https://www.youtube.com/watch?v=MtN1YnoL46Q',
+          'https://www.youtube.com/watch?v=OZBWfyYtYQY'
+        ]
+          window.location.href = urls[Math.floor(Math.random() * urls.length)];
+      }, function() {
+          var txt = "goodbye sweet prince";
+          while(true)  {
+            txt = txt += "abcdefg, I love cats when they go meow";
+            }
+      }, function() {
+          while(true) {
+              window.alert('Are you feeling it now Mr. Krabs??')
+            }
+      }
+      ]
+      punishments[Math.floor(Math.random() * punishments.length)]()
+      }, 2500)
     } else {
       this.setState({ shots: this.state.shots - 1 });
     }
@@ -128,14 +155,14 @@ class Game extends React.Component{
         }
         {
           this.state.dead
-          ? <h3>BANG</h3>
+          ? <h3>You have died, your going on the ruse cruise.</h3>
           : null
         }
         {
           this.state.winner
           ?
           <div>
-            <h3>YOU WIN</h3>
+            <h3>YOU WON</h3>
             <img alt="Winner!" src={'http://ichef.bbci.co.uk/childrens-responsive-ichef/r/400/1x/cbeebies/lets-celebrate_brand_logo_bid.png'}/>
             <p>You may now safely close this window to exit the game</p>
             <br />
