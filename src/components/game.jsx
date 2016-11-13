@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router';
+import { Button } from 'react-bootstrap';
 import RouletteButton from './rouletteButton';
 import io from 'socket.io-client';
 import UserList from './userList';
@@ -120,7 +122,7 @@ class Game extends React.Component{
           : null
         }
         {
-          !this.state.gameOn
+          (!this.state.gameOn && !this.state.winner)
           ? <h3>Waiting for another player to join...</h3>
           : null
         }
@@ -134,7 +136,13 @@ class Game extends React.Component{
           ?
           <div>
             <h3>YOU WIN</h3>
-            <img src={'http://ichef.bbci.co.uk/childrens-responsive-ichef/r/400/1x/cbeebies/lets-celebrate_brand_logo_bid.png'}/>
+            <img alt="Winner!" src={'http://ichef.bbci.co.uk/childrens-responsive-ichef/r/400/1x/cbeebies/lets-celebrate_brand_logo_bid.png'}/>
+            <p>You may now safely close this window to exit the game</p>
+            <br />
+            <p>or</p>
+            <br />
+            <Link to="/"><Button bsStyle="danger">Play Again</Button></Link>
+
           </div>
           : null
         }
