@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html')
+  res.sendFile(__dirname + '/build/index.html')
 })
 app.get('/static/css/main.e73f374c.css', (req, res) => {
   res.sendFile(__dirname + '/build/static/css/main.e73f374c.css')
