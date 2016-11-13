@@ -76,6 +76,7 @@ io.on('connection', function (socket) {
               {
                 id: data.id,
                 username: data.username,
+                opponentId: null,
               },
               (err, result) => {
                 if (err) console.log(err)
@@ -106,7 +107,9 @@ app.get('/data', (req, res) => {
   MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
     db.authenticate(config.username, config.password, (err, responce) => {
       var collection = db.collection('game');
-      collection.find().toArray(function(err, docs) {
+      collection.find({
+        opponentId: null
+      }).toArray(function(err, docs) {
         res.send(docs)
       })
     })
