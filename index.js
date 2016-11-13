@@ -15,7 +15,7 @@ app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + 'public/index.html')
+  res.sendFile(__dirname + 'build/index.html')
 })
 
 server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
