@@ -19,6 +19,9 @@ class UsernameModal extends React.Component{
 
   close() {
     var textValue = this.state.textValue
+    if (textValue === '') {
+      textValue = 'Crazy Russian';
+    }
     var thatSocket = this.props.socket[0];
     thatSocket.emit('join room', {
       id: thatSocket.id,

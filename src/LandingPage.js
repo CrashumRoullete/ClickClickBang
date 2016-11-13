@@ -6,10 +6,6 @@ import { Link } from 'react-router';
 // import ConfirmModal from './components/confirmModal';
 
 class LandingPage extends Component {
-  constructor(){
-    super()
-  }
-
   render() {
     return (
       <div className="App">
