@@ -27,23 +27,32 @@ const sockets = []
 
 io.on('connection', function (socket) {
   sockets.push(socket)
-  // if (sockets.length % 2 === 0) {
-    // MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
-    //   db.authenticate(config.username, config.password, (err, responce) => {
-    //     var collection = db.collection('game');
-    //     Update collection here where id = socket[0].id
-    // and socket[1].id
-    //   })
-    // });
-  //   sockets[0].emit('join room', {
-  //     opponentId: sockets[1].id
-  //   })
-  //   sockets[1].emit('join room', {
-  //     opponentId: sockets[0].id
-  //   })
-  //   sockets.shift()
-  //   sockets.shift()
-  // }
+  if (sockets.length % 2 === 0) {
+    MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
+      db.authenticate(config.username, config.password, (err, response) => {
+        if (err) return
+        var collection = db.collection('game');
+          collection.update({
+            id: socket[0].id,
+          }, {
+            opponentId: socket[1].id,
+          })
+          collection.update({
+            id: socket[1].id,
+          }, {
+            opponentId: socket[0].id
+          })
+        })
+    })
+    sockets[0].emit('join room', {
+      opponentId: sockets[1].id
+    })
+    sockets[1].emit('join room', {
+      opponentId: sockets[0].id
+    })
+    sockets.shift()
+    sockets.shift()
+  }
   socket.on('join room', function (data) {
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         if (err) console.log(err)
