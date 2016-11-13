@@ -19,7 +19,7 @@ class RouletteButton extends React.Component{
 
   render() {
     return(
-      <Button bsStyle="danger" onClick={this.onClick}><img id="revolver-svg" src={revolver} /> Pull the Trigger</Button>
+      <Button bsStyle="danger" onClick={this.onClick}><img alt="revolver" id="revolver-svg" src={revolver} /> Pull the Trigger</Button>
     )
   }
 }
