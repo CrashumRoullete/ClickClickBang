@@ -6,6 +6,7 @@ import io from 'socket.io-client';
 import UserList from './userList';
 import UsernameModel from './modal';
 import './../index.css';
+const bang = require('../../build/bang.wav');
 
 class Game extends React.Component{
   constructor(props) {
@@ -69,6 +70,8 @@ class Game extends React.Component{
 
   reduceShots() {
     if (this.state.deadlyBullet === this.state.shots) {
+      const bangSound = new Audio(bang);
+      bangSound.play();
       this.setState({ dead: true });
       this.state.testSocket[0].emit('rip', { id: this.state.testSocket[0].id });
     } else {
@@ -114,9 +117,11 @@ class Game extends React.Component{
           ?
           <div>
             <RouletteButton
-                socket={this.state.testSocket}
-                reduceShots={this.reduceShots}
-                notYourTurn={this.notYourTurn}
+              shot={this.state.shots}
+              bullet={this.state.deadlyBullet}
+              socket={this.state.testSocket}
+              reduceShots={this.reduceShots}
+              notYourTurn={this.notYourTurn}
             />
           </div>
           : null
@@ -135,9 +140,11 @@ class Game extends React.Component{
           this.state.winner
           ?
           <div>
-            <h3>YOU WIN</h3>
-            <img alt="Winner!" src={'http://ichef.bbci.co.uk/childrens-responsive-ichef/r/400/1x/cbeebies/lets-celebrate_brand_logo_bid.png'}/>
-            <p>You may now safely close this window to exit the game</p>
+            <h2>YOU WIN</h2>
+            <img alt="Winner!" src='https://media.giphy.com/media/1ofR3QioNy264/giphy.gif'/>
+            <h3>
+              <p>You may now safely close this window to exit the game</p>
+            </h3>
             <br />
             <p>or</p>
             <br />
