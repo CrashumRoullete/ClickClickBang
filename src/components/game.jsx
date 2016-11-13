@@ -40,7 +40,7 @@ class Game extends React.Component{
 
     let that = this;
 
-    var socket = io('http://clickclickbang.2016.nodeknockout.com/')
+    var socket = io('clickclickbang.2016.nodeknockout.com')
     socket.on('join room', function(param) {
       that.setState({ player1: socket.username, player2: param.opponentUsername });
       that.setState({ gameOn: true });
