@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { Link } from 'react-router';
 import io from 'socket.io-client';
 
 class UsernameModal extends React.Component{
@@ -21,13 +20,12 @@ class UsernameModal extends React.Component{
 
   close() {
     var textValue = this.state.textValue
-    var socket = io('http://localhost:5000')
-    socket.on('connect', function() {
-      socket.emit('join room', {
-        id: socket.id,
-        username: textValue
-      })
+    var thatSocket = this.props.socket[0];
+    thatSocket.emit('join room', {
+      id: thatSocket.id,
+      username: textValue
     })
+    this.setState({ showModal: false });
   }
 
   onFocus() {
@@ -49,9 +47,7 @@ class UsernameModal extends React.Component{
             <input type="text" value={this.state.textValue} onFocus={this.onFocus} onChange={this.textChange} />
           </Modal.Body>
           <Modal.Footer>
-            <Link to="/game">
-              <Button bsStyle="primary" onClick={this.close}>Save</Button>
-            </Link>
+            <Button bsStyle="primary" onClick={this.close}>Save</Button>
           </Modal.Footer>
         </Modal>
       </div>
