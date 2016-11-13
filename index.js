@@ -68,10 +68,12 @@ io.on('connection', function (socket) {
             });
           sockets[0].emit('join room', {
             opponentId: sockets[1].id,
+            opponentUsername: sockets[1].username,
             deadlyBullet: obj.deadlyBullet
           });
           sockets[1].emit('join room', {
             opponentId: sockets[0].id,
+            opponentUsername: sockets[0].username,
             deadlyBullet: obj.deadlyBullet
           });
           sockets[Math.round(Math.random())].emit('yourTurn', {

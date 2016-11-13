@@ -40,7 +40,7 @@ class Game extends React.Component{
 
     var socket = io('http://localhost:5000')
     socket.on('join room', function(param) {
-      that.setState({ player1: socket.id, player2: param.opponentId });
+      that.setState({ player1: socket.username, player2: param.opponentUsername });
       that.setState({ gameOn: true });
       that.setState({ deadlyBullet: param.deadlyBullet });
     })
@@ -81,11 +81,11 @@ class Game extends React.Component{
   render() {
     return(
       <div>
+      <UsernameModel socket={this.state.testSocket}/>
       {
         !this.state.gameOn
         ?
         <div id="users">
-          <UsernameModel socket={this.state.testSocket}/>
           <h3>Users</h3>
           <UserList users={this.state.users} />
         </div>
@@ -131,7 +131,11 @@ class Game extends React.Component{
         }
         {
           this.state.winner
-          ? <h3>YOU WIN</h3>
+          ?
+          <div>
+            <h3>YOU WIN</h3>
+            <img src={'http://ichef.bbci.co.uk/childrens-responsive-ichef/r/400/1x/cbeebies/lets-celebrate_brand_logo_bid.png'}/>
+          </div>
           : null
         }
       </div>
