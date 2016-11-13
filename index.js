@@ -13,6 +13,10 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
+app.get('/', (req, res) => {
+  res.send(PORT)
+})
+
 app.post('/', (req, res) => {
   console.log(req.body)
 })
@@ -23,6 +27,23 @@ const sockets = []
 
 io.on('connection', function (socket) {
   sockets.push(socket)
+  // if (sockets.length % 2 === 0) {
+    // MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
+    //   db.authenticate(config.username, config.password, (err, responce) => {
+    //     var collection = db.collection('game');
+    //     Update collection here where id = socket[0].id
+    // and socket[1].id
+    //   })
+    // });
+  //   sockets[0].emit('join room', {
+  //     opponentId: sockets[1].id
+  //   })
+  //   sockets[1].emit('join room', {
+  //     opponentId: sockets[0].id
+  //   })
+  //   sockets.shift()
+  //   sockets.shift()
+  // }
   socket.on('join room', function (data) {
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         if (err) console.log(err)
@@ -72,25 +93,3 @@ app.get('/data', (req, res) => {
     })
   });
 })
-
-
-
-
-// MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
-//  if (err) console.log(err)
-//  if (!err) {
-//    console.log('successfully connected to the database')
-//    db.authenticate(config.username, config.password, (err, res) => {
-//      if (err) return console.log(err)
-//      console.log('Successfully authenticated into the database')
-
-//     db.findAllCards((data) => {
-//       if(data) {
-//         res.set('Access-Control-Allow-Origin', '*');
-//         return res.json(data);
-//       }
-//     });
-//      db.close()
-//    })
-//  }
-// })
