@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -21,7 +21,7 @@ app.get('/static/css/main.e73f374c.css', (req, res) => {
   res.sendFile(__dirname + '/build/static/css/main.e73f374c.css')
 })
 app.get('/static/js/main.2a62f4e0.js', (req, res) => {
-  res.sendFile(__dirname + '/static/js/main.2a62f4e0.js')
+  res.sendFile(__dirname + '/build/static/js/main.2a62f4e0.js')
 })
 
 server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
