@@ -44,7 +44,8 @@ io.on('connection', function (socket) {
             socketTwo: sockets[1],
             player1: sockets[0].id,
             player2: sockets[1].id,
-            bullets: 6
+            bullets: 6,
+            deadlyBullet: Math.floor(Math.random() * 6 + 1)
           };
           games.push(obj)
           console.log(games)
@@ -64,12 +65,17 @@ io.on('connection', function (socket) {
               opponentId: sockets[0].id
             });
           sockets[0].emit('join room', {
-            opponentId: sockets[1].id
+            opponentId: sockets[1].id,
+            deadlyBullet: obj.deadlyBullet
           });
           sockets[1].emit('join room', {
-            opponentId: sockets[0].id
+            opponentId: sockets[0].id,
+            deadlyBullet: obj.deadlyBullet
           });
-          sockets[Math.round(Math.random())].emit('yourTurn');
+          sockets[Math.round(Math.random())].emit('yourTurn', {
+            bullets: obj.bullets,
+            deadlyBullet: obj.deadlyBullet,
+          });
           sockets.shift()
           sockets.shift()
         })
