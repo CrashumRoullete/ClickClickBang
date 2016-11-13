@@ -14,10 +14,13 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + 'public/index.html')
+})
+
 server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
 
 const sockets = [];
-
 const games = [];
 
 io.on('connection', function (socket) {
