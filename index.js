@@ -23,7 +23,9 @@ app.post('/', (req, res) => {
 
 server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
 
-const sockets = []
+const sockets = [];
+
+const games = [];
 
 io.on('connection', function (socket) {
   if (sockets.indexOf(socket) < 0) {
@@ -37,6 +39,7 @@ io.on('connection', function (socket) {
         console.log(sockets[0]);
         db.authenticate(config.username, config.password, (err, response) => {
           if (err) console.log(err, 'ERR CATCH');
+          games.push({ player1: sockets[0].id, player2: sockets[1].id });
           var collection = db.collection('game');
             collection.update({
               id: sockets[0].id,
@@ -100,6 +103,9 @@ io.on('connection', function (socket) {
       }
     })
   })
+  socket.on('buttonClicked', function(data) {
+    console.log(data);
+  })
 })
 
 
@@ -115,3 +121,5 @@ app.get('/data', (req, res) => {
     })
   });
 })
+
+

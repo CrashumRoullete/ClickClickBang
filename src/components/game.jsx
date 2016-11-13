@@ -15,6 +15,10 @@ class Game extends React.Component{
       deadlyBullet: 1,
       dead: false,
       testSocket: '',
+      turn: 1,
+      gameOn: false,
+      player1: null,
+      player2: null,
     }
   }
 
@@ -32,8 +36,12 @@ class Game extends React.Component{
 
     let array = [];
 
+    let that = this;
+
     var socket = io('http://localhost:5000')
-    socket.on('join room', function() {
+    socket.on('join room', function(param) {
+      that.setState({ player1: socket.id, player2: param.opponentId })
+      that.setState({ gameOn: true })
     })
 
     array.push(socket);
@@ -41,7 +49,7 @@ class Game extends React.Component{
   }
 
   onMongoData(data) {
-    let people = JSON.parse(data.currentTarget.response)
+    let people = JSON.parse(data.currentTarget.response);
     this.setState({ users: people });
   }
 
@@ -64,11 +72,13 @@ class Game extends React.Component{
         <div id="shots">
           Shots Remaining: {this.state.shots}
         </div>
-        <RouletteButton
-        bullet={this.state.deadlyBullet}
-        reduceShots={this.reduceShots}
-        shot={this.state.shots}
-        />
+        {this.state.gameOn
+          ?<RouletteButton
+              socket={this.state.testSocket}
+              reduceShots={this.reduceShots}
+              />
+          : null
+        }
         {
           this.state.dead
           ? <h3>BANG</h3>
