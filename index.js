@@ -44,7 +44,8 @@ io.on('connection', function (socket) {
             socketTwo: sockets[1],
             player1: sockets[0].id,
             player2: sockets[1].id,
-            bullets: 6
+            bullets: 6,
+            deadlyBullet: Math.floor(Math.random() * 6 + 1)
           };
           games.push(obj)
           var collection = db.collection('game');
@@ -63,12 +64,17 @@ io.on('connection', function (socket) {
               opponentId: sockets[0].id
             });
           sockets[0].emit('join room', {
-            opponentId: sockets[1].id
+            opponentId: sockets[1].id,
+            deadlyBullet: obj.deadlyBullet
           });
           sockets[1].emit('join room', {
-            opponentId: sockets[0].id
+            opponentId: sockets[0].id,
+            deadlyBullet: obj.deadlyBullet
           });
-          sockets[Math.round(Math.random())].emit('yourTurn');
+          sockets[Math.round(Math.random())].emit('yourTurn', {
+            bullets: obj.bullets,
+            deadlyBullet: obj.deadlyBullet,
+          });
           sockets.shift()
           sockets.shift()
         })
@@ -127,6 +133,17 @@ io.on('connection', function (socket) {
           player2: games[i].player1,
           bullets: games[i].bullets,
         })
+      }
+    }
+  })
+  socket.on('rip', function(data) {
+    for (let i = 0; i < games.length; i++) {
+      if (games[i].player1 === data.id) {
+        games[i].socketTwo.emit('winner');
+        games.splice(i,1)
+      } else if (games[i].player2 === data.id) {
+        games[i].socketOne.emit('winner')
+        games.splice(i,1)
       }
     }
   })

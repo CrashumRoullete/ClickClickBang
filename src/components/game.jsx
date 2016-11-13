@@ -13,7 +13,7 @@ class Game extends React.Component{
     this.state = {
       users: '',
       shots: 6,
-      deadlyBullet: 1,
+      deadlyBullet: null,
       dead: false,
       testSocket: '',
       turn: 1,
@@ -21,11 +21,8 @@ class Game extends React.Component{
       player1: null,
       player2: null,
       yourTurn: false,
+      winner: false,
     }
-  }
-
-  componentWillMount() {
-    this.setState({ deadlyBullet: Math.floor(Math.random() * 6 + 1) });
   }
 
   componentDidMount() {
@@ -42,13 +39,20 @@ class Game extends React.Component{
 
     var socket = io('http://localhost:5000')
     socket.on('join room', function(param) {
-      that.setState({ player1: socket.id, player2: param.opponentId })
-      that.setState({ gameOn: true })
+      that.setState({ player1: socket.id, player2: param.opponentId });
+      that.setState({ gameOn: true });
+      that.setState({ deadlyBullet: param.deadlyBullet });
     })
 
     socket.on('yourTurn', function(data) {
       that.setState({ yourTurn: true });
       that.setState({ shots: data.bullets });
+    })
+
+    socket.on('winner', function(data) {
+      that.setState({ gameOn: false });
+      that.setState({ yourTurn: false });
+      that.setState({ winner: true });
     })
 
     array.push(socket);
@@ -61,7 +65,12 @@ class Game extends React.Component{
   }
 
   reduceShots() {
-    this.setState({ shots: this.state.shots - 1 });
+    if (this.state.deadlyBullet === this.state.shots) {
+      this.setState({ dead: true });
+      this.state.testSocket[0].emit('rip', { id: this.state.testSocket[0].id });
+    } else {
+      this.setState({ shots: this.state.shots - 1 });
+    }
   }
 
   notYourTurn() {
@@ -90,6 +99,11 @@ class Game extends React.Component{
         {
           this.state.dead
           ? <h3>BANG</h3>
+          : null
+        }
+        {
+          this.state.winner
+          ? <h3>YOU WIN</h3>
           : null
         }
       </div>
