@@ -137,6 +137,17 @@ io.on('connection', function (socket) {
       }
     }
   })
+  socket.on('rip', function(data) {
+        console.log(data.id, 'PLAYER ONE')
+    for (let i = 0; i < games.length; i++) {
+      if (games[i].player1 === data.id) {
+        games[i].socketTwo.emit('winner')
+      } else if (games[i].player2 === data.id) {
+        console.log(data.id, 'PLAYER TWO')
+        games[i].socketOne.emit('winner')
+      }
+    }
+  })
 })
 
 

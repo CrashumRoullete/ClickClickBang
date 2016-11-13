@@ -21,6 +21,7 @@ class Game extends React.Component{
       player1: null,
       player2: null,
       yourTurn: false,
+      winner: false,
     }
   }
 
@@ -44,9 +45,14 @@ class Game extends React.Component{
     })
 
     socket.on('yourTurn', function(data) {
-      console.log(data);
       that.setState({ yourTurn: true });
       that.setState({ shots: data.bullets });
+    })
+
+    socket.on('winner', function(data) {
+      that.setState({ gameOn: false });
+      that.setState({ yourTurn: false });
+      that.setState({ winner: true });
     })
 
     array.push(socket);
@@ -61,6 +67,7 @@ class Game extends React.Component{
   reduceShots() {
     if (this.state.deadlyBullet === this.state.shots) {
       this.setState({ dead: true });
+      this.state.testSocket[0].emit('rip', { id: this.state.testSocket[0].id });
     } else {
       this.setState({ shots: this.state.shots - 1 });
     }
@@ -92,6 +99,11 @@ class Game extends React.Component{
         {
           this.state.dead
           ? <h3>BANG</h3>
+          : null
+        }
+        {
+          this.state.winner
+          ? <h3>YOU WIN</h3>
           : null
         }
       </div>
