@@ -25,7 +25,9 @@ server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
 
 const sockets = []
 
-if (sockets.length % 2 === 0) {
+io.on('connection', function (socket) {
+  sockets.push(socket)
+  if (sockets.length % 2 === 0 && sockets.length) {
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
       db.authenticate(config.username, config.password, (err, response) => {
         if (err) return
@@ -51,6 +53,7 @@ if (sockets.length % 2 === 0) {
     sockets.shift()
     sockets.shift()
   }
+
   socket.on('join room', function (data) {
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         if (err) console.log(err)
@@ -87,7 +90,7 @@ if (sockets.length % 2 === 0) {
       }
     })
   })
-
+})
 
 
 app.get('/data', (req, res) => {
