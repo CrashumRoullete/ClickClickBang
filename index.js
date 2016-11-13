@@ -8,24 +8,25 @@ const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-const PORT = 5000;
-app.use(express.static(__dirname + '/public'))
+const PORT = process.env.PORT || 5000;
+
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
 app.get('/', (req, res) => {
-  res.send(PORT)
+  res.sendFile(__dirname + '/build/index.html')
 })
-
-app.post('/', (req, res) => {
-  console.log(req.body)
+app.get('/static/css/main.e73f374c.css', (req, res) => {
+  res.sendFile(__dirname + '/build/static/css/main.e73f374c.css')
+})
+app.get('/static/js/main.10fe53db.js', (req, res) => {
+  res.sendFile(__dirname + '/build/static/js/main.10fe53db.js')
 })
 
 server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
 
 const sockets = [];
-
 const games = [];
 
 io.on('connection', function (socket) {
@@ -34,7 +35,9 @@ io.on('connection', function (socket) {
   }
   socket.on('join room', function (data) {
     console.log('Inserting Socket into database')
-    sockets[sockets.indexOf(socket)].username = data.username
+    try {
+      sockets[sockets.indexOf(socket)].username = data.username
+    } catch (e) {}
     if (sockets.length % 2 === 0 && sockets.length) {
       MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         db.authenticate(config.username, config.password, (err, response) => {
@@ -65,10 +68,12 @@ io.on('connection', function (socket) {
             });
           sockets[0].emit('join room', {
             opponentId: sockets[1].id,
+            opponentUsername: sockets[1].username,
             deadlyBullet: obj.deadlyBullet
           });
           sockets[1].emit('join room', {
             opponentId: sockets[0].id,
+            opponentUsername: sockets[0].username,
             deadlyBullet: obj.deadlyBullet
           });
           sockets[Math.round(Math.random())].emit('yourTurn', {

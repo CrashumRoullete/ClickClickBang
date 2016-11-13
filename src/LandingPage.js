@@ -1,30 +1,13 @@
+import './App.css';
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router';
-import './App.css';
 // import UsernameModal from './components/modal';
 // import ConfirmModal from './components/confirmModal';
 
 class LandingPage extends Component {
   constructor(){
     super()
-    this.showModal = this.showModal.bind(this);
-    this.secondModal = this.secondModal.bind(this);
-    this.state = {
-      showModal: false,
-      confirmModal: false,
-    }
-  }
-
-  showModal(){
-    this.setState({
-      showModal: true
-    })
-  }
-
-  secondModal() {
-    this.setState({ showModal: false });
-    this.setState({ confirmModal: true });
   }
 
   render() {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import io from 'socket.io-client';
 
 class UsernameModal extends React.Component{
   constructor(props) {
