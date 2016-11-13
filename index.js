@@ -38,8 +38,21 @@ io.on('connection', function (socket) {
       MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         console.log(sockets[0]);
         db.authenticate(config.username, config.password, (err, response) => {
-          if (err) console.log(err, 'ERR CATCH');
-          games.push({ player1: sockets[0].id, player2: sockets[1].id });
+          if (err) return console.log(err);
+          let obj = {
+            socketOne: sockets[0],
+            socketTwo: sockets[1],
+            player1: sockets[0].id,
+            player2: sockets[1].id,
+            bullets: 6
+          }
+          if (games.indexOf(obj) >= 0) {
+            obj.socketOne = sockets[1]
+            obj.socketTwo = sockets[0]
+            obj.player1 = sockets[1].id
+            obj.player2 = sockets[0].id
+          }
+          games.push(obj)
           var collection = db.collection('game');
             collection.update({
               id: sockets[0].id,
@@ -121,5 +134,3 @@ app.get('/data', (req, res) => {
     })
   });
 })
-
-
