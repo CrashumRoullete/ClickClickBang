@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
