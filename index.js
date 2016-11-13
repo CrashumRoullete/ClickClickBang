@@ -48,7 +48,6 @@ io.on('connection', function (socket) {
             deadlyBullet: Math.floor(Math.random() * 6 + 1)
           };
           games.push(obj)
-          console.log(games)
           var collection = db.collection('game');
             collection.update({
               id: sockets[0].id,
@@ -138,13 +137,13 @@ io.on('connection', function (socket) {
     }
   })
   socket.on('rip', function(data) {
-        console.log(data.id, 'PLAYER ONE')
     for (let i = 0; i < games.length; i++) {
       if (games[i].player1 === data.id) {
-        games[i].socketTwo.emit('winner')
+        games[i].socketTwo.emit('winner');
+        games.splice(i,1)
       } else if (games[i].player2 === data.id) {
-        console.log(data.id, 'PLAYER TWO')
         games[i].socketOne.emit('winner')
+        games.splice(i,1)
       }
     }
   })
