@@ -29,7 +29,7 @@ class Game extends React.Component{
     setInterval(() => {
       const req = new XMLHttpRequest();
       req.addEventListener('load', this.onMongoData);
-      req.open('GET', ``${window.location.origin}:5000/data`);
+      req.open('GET', `${window.location.origin}:5000/data`);
       req.send();
     }, 1000)
 
