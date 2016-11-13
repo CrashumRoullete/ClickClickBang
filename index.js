@@ -20,6 +20,7 @@ app.get('/', (req, res) => {
 app.get('/static/css/main.d827b96d.css', (req, res) => {
   res.sendFile(__dirname + '/build/static/css/main.d827b96d.css')
 })
+
 app.get('/static/js/main.9f5ce016.js', (req, res) => {
   res.sendFile(__dirname + '/build/static/js/main.9f5ce016.js')
 })
