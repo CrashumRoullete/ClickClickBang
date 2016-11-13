@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
 app.get('/static/css/main.e73f374c.css', (req, res) => {
   res.sendFile(__dirname + '/build/static/css/main.e73f374c.css')
 })
-app.get('/static/js/main.2a62f4e0.js', (req, res) => {
-  res.sendFile(__dirname + '/build/static/js/main.2a62f4e0.js')
+app.get('/static/js/main.10fe53db.js', (req, res) => {
+  res.sendFile(__dirname + '/build/static/js/main.10fe53db.js')
 })
 
 server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
