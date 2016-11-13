@@ -35,7 +35,9 @@ io.on('connection', function (socket) {
   }
   socket.on('join room', function (data) {
     console.log('Inserting Socket into database')
-    sockets[sockets.indexOf(socket)].username = data.username
+    try {
+      sockets[sockets.indexOf(socket)].username = data.username
+    } catch (e) {}
     if (sockets.length % 2 === 0 && sockets.length) {
       MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         db.authenticate(config.username, config.password, (err, response) => {
