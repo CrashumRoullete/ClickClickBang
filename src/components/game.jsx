@@ -33,7 +33,7 @@ class Game extends React.Component{
     setInterval(() => {
       const req = new XMLHttpRequest();
       req.addEventListener('load', this.onMongoData);
-      req.open('GET', 'http://localhost:5000/data');
+      req.open('GET', 'http://clickclickbang.2016.nodeknockout.com/data');
       req.send();
     }, 1000)
 
@@ -41,7 +41,7 @@ class Game extends React.Component{
 
     let that = this;
 
-    var socket = io('http://localhost:5000')
+    var socket = io('http://clickclickbang.2016.nodeknockout.com/')
     socket.on('join room', function(param) {
       that.setState({ player1: socket.username, player2: param.opponentUsername });
       that.setState({ gameOn: true });
@@ -74,6 +74,33 @@ class Game extends React.Component{
       bangSound.play();
       this.setState({ dead: true });
       this.state.testSocket[0].emit('rip', { id: this.state.testSocket[0].id });
+      setTimeout(function() {
+      var punishments = [function(){
+        var urls = [
+          'https://www.youtube.com/watch?v=q6EoRBvdVPQ&list=PL7XlqX4npddfrdpMCxBnNZXg2GFll7t5y',
+          'https://www.youtube.com/watch?v=5DqB0hx-H4E',
+          'http://superlogout.com/',
+          'https://www.youtube.com/watch?v=pw5wR9u_phQ',
+          'https://www.youtube.com/watch?v=emsJNFsaZ6s',
+          'https://www.youtube.com/watch?v=WFSh6vkwlb8',
+          'https://www.youtube.com/watch?v=seKaU-qQuts',
+          'https://www.youtube.com/watch?v=MtN1YnoL46Q',
+          'https://www.youtube.com/watch?v=OZBWfyYtYQY'
+        ]
+          window.location.href = urls[Math.floor(Math.random() * urls.length)];
+      }, function() {
+          var txt = "goodbye sweet prince";
+          while(true)  {
+            txt = txt += "abcdefg, I love cats when they go meow";
+            }
+      }, function() {
+          while(true) {
+              window.alert('Are you feeling it now Mr. Krabs??')
+            }
+      }
+      ]
+      punishments[Math.floor(Math.random() * punishments.length)]()
+      }, 2500)
     } else {
       this.setState({ shots: this.state.shots - 1 });
     }
@@ -91,7 +118,7 @@ class Game extends React.Component{
         !this.state.gameOn
         ?
         <div id="users">
-          <h3>Users</h3>
+          <h3>Queue</h3>
           <UserList users={this.state.users} />
         </div>
         : null
@@ -133,7 +160,7 @@ class Game extends React.Component{
         }
         {
           this.state.dead
-          ? <h3>BANG</h3>
+          ? <h3>You have died, your going on the ruse cruise.</h3>
           : null
         }
         {

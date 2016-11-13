@@ -46,6 +46,7 @@ class UsernameModal extends React.Component{
             <Modal.Title>Input A Username</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <h2>Choose your name</h2>
             <input type="text" value={this.state.textValue} onFocus={this.onFocus} onChange={this.textChange} />
           </Modal.Body>
           <Modal.Footer>
