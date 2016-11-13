@@ -20,12 +20,10 @@ class UsernameModal extends React.Component{
 
   close() {
     var textValue = this.state.textValue
-    var socket = io('http://localhost:5000')
-    socket.on('connect', function() {
-      socket.emit('join room', {
-        id: socket.id,
-        username: textValue
-      })
+    var thatSocket = this.props.socket[0];
+    thatSocket.emit('join room', {
+      id: thatSocket.id,
+      username: textValue
     })
     this.setState({ showModal: false });
   }

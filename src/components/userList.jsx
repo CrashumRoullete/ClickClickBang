@@ -8,8 +8,8 @@ class UserList extends React.Component{
 
   renderList() {
     if (this.props.users) {
-      return this.props.users.map(ele => (
-        <li>{ele.username}</li>
+      return this.props.users.map((ele, i) => (
+        <li key={i}>{ele.username}</li>
       ))
     }
   }

@@ -26,38 +26,44 @@ server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
 const sockets = []
 
 io.on('connection', function (socket) {
-  if(sockets.indexOf(socket) > 0) {
-    sockets.push(socket)
+  if (sockets.indexOf(socket) < 0) {
+    sockets.push(socket);
   }
-  if (sockets.length % 2 === 0 && sockets.length) {
-    MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
-      db.authenticate(config.username, config.password, (err, response) => {
-        if (err) return
-        var collection = db.collection('game');
-          collection.update({
-            id: sockets[0].id,
-          }, {
-            opponentId: sockets[1].id,
-          })
-          collection.update({
-            id: sockets[1].id,
-          }, {
-            opponentId: sockets[0].id
-          })
-        })
-    })
-    sockets[0].emit('join room', {
-      opponentId: sockets[1].id
-    })
-    sockets[1].emit('join room', {
-      opponentId: sockets[0].id
-    })
-    sockets.shift()
-    sockets.shift()
-  }
-
   socket.on('join room', function (data) {
     console.log('Inserting Socket into database')
+    sockets[sockets.indexOf(socket)].username = data.username
+    if (sockets.length % 2 === 0 && sockets.length) {
+      MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
+        console.log(sockets[0]);
+        db.authenticate(config.username, config.password, (err, response) => {
+          if (err) console.log(err, 'ERR CATCH');
+          var collection = db.collection('game');
+            collection.update({
+              id: sockets[0].id,
+            }, {
+              id: sockets[0].id,
+              username: sockets[0].username,
+              opponentId: sockets[1].id,
+            });
+            collection.update({
+              id: sockets[1].id,
+            }, {
+              id: sockets[1].id,
+              username: sockets[1].username,
+              opponentId: sockets[0].id
+            });
+          sockets[0].emit('join room', {
+            opponentId: sockets[1].id
+          })
+          sockets[1].emit('join room', {
+            opponentId: sockets[0].id
+          })
+          sockets.shift()
+          sockets.shift()
+        })
+    })
+  }
+
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
         if (err) console.log(err)
         if (!err) {
@@ -81,6 +87,7 @@ io.on('connection', function (socket) {
   })
   socket.on('disconnect', function(data) {
     console.log('Deleting Socket from database')
+    sockets.splice(sockets.indexOf(socket), 1)
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
       if (err) console.log(err)
       if (!err) {

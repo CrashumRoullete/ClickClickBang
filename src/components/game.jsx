@@ -14,6 +14,7 @@ class Game extends React.Component{
       shots: 6,
       deadlyBullet: 1,
       dead: false,
+      testSocket: '',
     }
   }
 
@@ -29,10 +30,14 @@ class Game extends React.Component{
       req.send();
     }, 1000)
 
+    let array = [];
+
     var socket = io('http://localhost:5000')
     socket.on('join room', function() {
-
     })
+
+    array.push(socket);
+    this.setState({ testSocket: array });
   }
 
   onMongoData(data) {
@@ -52,7 +57,7 @@ class Game extends React.Component{
     return(
       <div>
         <div id="users">
-          <UsernameModel />
+          <UsernameModel socket={this.state.testSocket}/>
           <h3>Users</h3>
           <UserList users={this.state.users} />
         </div>
