@@ -2,6 +2,7 @@ import React from 'react';
 import RouletteButton from './rouletteButton';
 import io from 'socket.io-client';
 import UserList from './userList';
+import UsernameModel from './modal';
 
 class Game extends React.Component{
   constructor(props) {
@@ -18,9 +19,6 @@ class Game extends React.Component{
 
   componentWillMount() {
     this.setState({ deadlyBullet: Math.floor(Math.random() * 6 + 1) });
-    var socket = io('http://localhost:5000')
-    socket.on('connect', function() {
-    })
   }
 
   componentDidMount() {
@@ -30,6 +28,11 @@ class Game extends React.Component{
       req.open('GET', 'http://localhost:5000/data');
       req.send();
     }, 1000)
+
+    var socket = io('http://localhost:5000')
+    socket.on('join room', function() {
+
+    })
   }
 
   onMongoData(data) {
@@ -49,6 +52,7 @@ class Game extends React.Component{
     return(
       <div>
         <div id="users">
+          <UsernameModel />
           <h3>Users</h3>
           <UserList users={this.state.users} />
         </div>

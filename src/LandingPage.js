@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import { Link } from 'react-router';
 import './App.css';
-import UsernameModal from './components/modal';
-import ConfirmModal from './components/confirmModal';
+// import UsernameModal from './components/modal';
+// import ConfirmModal from './components/confirmModal';
 
 class LandingPage extends Component {
   constructor(){
@@ -50,15 +51,7 @@ class LandingPage extends Component {
         <div className="warning">
           <p className="warning-text">WARNING! If you lose then we get to crash your browser. THIS IS YOUR ONLY WARNING. Please make sure that you do not have any important pages open in the background when deciding to play this consequential game... Just hope that you land on an empty chamber.</p>
         </div>
-        <Button onClick={this.showModal}>Enter Game</Button>
-        {this.state.showModal ?
-          <UsernameModal secondModal={this.secondModal}/>
-          : null}
-        {
-          this.state.confirmModal
-          ? <ConfirmModal />
-          : null
-        }
+        <Link to="/game"><Button>Enter Game</Button></Link>
       </div>
     );
   }

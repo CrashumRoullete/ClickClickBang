@@ -28,7 +28,6 @@ class UsernameModal extends React.Component{
       })
     })
     this.setState({ showModal: false });
-    this.props.secondModal();
   }
 
   onFocus() {
