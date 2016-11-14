@@ -18,6 +18,10 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/build/index.html')
 })
 
+app.get('/static/media/revolver.2fab4322.svg', (req, res) => {
+  res.sendFile(__dirname + '/build/static/media/revolver.2fab4322.svg')
+})
+
 app.get('/static/css/main.d827b96d.css', (req, res) => {
   res.sendFile(__dirname + '/build/static/css/main.d827b96d.css')
 })
