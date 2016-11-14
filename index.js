@@ -27,7 +27,7 @@ app.get('/static/css/main.d827b96d.css', (req, res) => {
 })
 
 app.get('/static/js/main.15f4ca72.js', (req, res) => {
-  res.sendFile(__dirname + '/build/static/js/15f4ca72.js')
+  res.sendFile(__dirname + '/build/static/js/main.15f4ca72.js')
 })
 
 app.get('/static/media/trigger.b7b47539.wav', (req, res) => {
