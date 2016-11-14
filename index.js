@@ -30,6 +30,14 @@ app.get('/static/js/main.15f4ca72.js', (req, res) => {
   res.sendFile(__dirname + '/build/static/js/main.15f4ca72.js')
 })
 
+app.get('/static/media/trigger.b7b47539.wav', (req, res) => {
+  res.sendFile(__dirname + '/build/static/media/trigger.b7b47539.wav')
+})
+
+app.get('/static/media/revolver.2fab4322.svg', (req, res) => {
+  res.sendFile(__dirname + '/build/static/media/revolver.2fab4322.svg')
+})
+
 server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
 
 const sockets = [];
