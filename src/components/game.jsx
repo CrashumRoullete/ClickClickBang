@@ -15,6 +15,7 @@ class Game extends React.Component {
     this.onMongoData = this.onMongoData.bind(this)
     this.notYourTurn = this.notYourTurn.bind(this)
     this.playAgain = this.playAgain.bind(this)
+    this.openSocket = this.openSocket.bind(this)
     this.state = {
       users: '',
       shots: 6,
@@ -37,12 +38,17 @@ class Game extends React.Component {
       req.open('GET', 'http://clickclickbang.2016.nodeknockout.com/data')
       req.send()
     }, 1000)
-
+    this.openSocket()
+  }
+  openSocket () {
     let array = []
 
     let that = this
 
-    var socket = io('clickclickbang.2016.nodeknockout.com')
+    var socket = io('clickclickbang.2016.nodeknockout.com', () => {
+      array.push(socket)
+      that.setState({ testSocket: array })
+    })
     socket.on('join room', function (param) {
       that.setState({ player1: socket.username, player2: param.opponentUsername })
       that.setState({ gameOn: true })
@@ -58,10 +64,8 @@ class Game extends React.Component {
       that.setState({ gameOn: false })
       that.setState({ yourTurn: false })
       that.setState({ winner: true })
+      socket.disconnect()
     })
-
-    array.push(socket)
-    this.setState({ testSocket: array })
   }
 
   onMongoData (data) {
@@ -112,6 +116,7 @@ class Game extends React.Component {
   }
 
   playAgain () {
+    this.openSocket()
     var thatSocket = this.props.socket[0]
     thatSocket.emit('join room', {
       id: thatSocket.id,
