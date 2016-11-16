@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -38,14 +38,14 @@ app.get('/static/media/revolver.2fab4322.svg', (req, res) => {
   res.sendFile(__dirname + '/build/static/media/revolver.2fab4322.svg')
 })
 
-server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`));
+server.listen(PORT, () => console.log(`Now listening on PORT ${PORT}`))
 
-const sockets = [];
-const games = [];
+const sockets = []
+const games = []
 
 io.on('connection', function (socket) {
   if (sockets.indexOf(socket) < 0) {
-    sockets.push(socket);
+    sockets.push(socket)
   }
   socket.on('join room', function (data) {
     console.log('Inserting Socket into database')
@@ -54,8 +54,9 @@ io.on('connection', function (socket) {
     } catch (e) {}
     if (sockets.length % 2 === 0 && sockets.length) {
       MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
+        if (err) return console.log(err)
         db.authenticate(config.username, config.password, (err, response) => {
-          if (err) return console.log(err);
+          if (err) return console.log(err)
           let obj = {
             socketOne: sockets[0],
             socketTwo: sockets[1],
@@ -63,66 +64,68 @@ io.on('connection', function (socket) {
             player2: sockets[1].id,
             bullets: 6,
             deadlyBullet: Math.floor(Math.random() * 6 + 1)
-          };
+          }
           games.push(obj)
-          var collection = db.collection('game');
-            collection.update({
-              id: sockets[0].id,
-            }, {
-              id: sockets[0].id,
-              username: sockets[0].username,
-              opponentId: sockets[1].id,
-            });
-            collection.update({
-              id: sockets[1].id,
-            }, {
-              id: sockets[1].id,
-              username: sockets[1].username,
-              opponentId: sockets[0].id
-            });
+          var collection = db.collection('game')
+          collection.update({
+            id: sockets[0].id
+          }, {
+            id: sockets[0].id,
+            username: sockets[0].username,
+            opponentId: sockets[1].id
+          })
+          collection.update({
+            id: sockets[1].id
+          }, {
+            id: sockets[1].id,
+            username: sockets[1].username,
+            opponentId: sockets[0].id
+          })
           sockets[0].emit('join room', {
             opponentId: sockets[1].id,
             opponentUsername: sockets[1].username,
             deadlyBullet: obj.deadlyBullet
-          });
+          })
           sockets[1].emit('join room', {
             opponentId: sockets[0].id,
             opponentUsername: sockets[0].username,
             deadlyBullet: obj.deadlyBullet
-          });
+          })
           sockets[Math.round(Math.random())].emit('yourTurn', {
             bullets: obj.bullets,
-            deadlyBullet: obj.deadlyBullet,
-          });
-          sockets.shift()
-          sockets.shift()
+            deadlyBullet: obj.deadlyBullet
+          })
+          setTimeout(function () {
+            sockets.shift()
+            sockets.shift()
+          }, 2500)
         })
-    })
-  }
+      })
+    }
 
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
-        if (err) console.log(err)
-        if (!err) {
-          console.log('successfully connected to the database')
-          db.authenticate(config.username, config.password, (err, res) => {
-            if (err) return console.log(err)
-            console.log('Successfully authenticated into the database')
-            const collection = db.collection('game')
-            collection.insertOne(
-              {
-                id: data.id,
-                username: data.username,
-                opponentId: null,
-              },
+      if (err) console.log(err)
+      if (!err) {
+        console.log('successfully connected to the database')
+        db.authenticate(config.username, config.password, (err, res) => {
+          if (err) return console.log(err)
+          console.log('Successfully authenticated into the database')
+          const collection = db.collection('game')
+          collection.insertOne(
+            {
+              id: data.id,
+              username: data.username,
+              opponentId: null
+            },
               (err, result) => {
                 if (err) console.log(err)
               })
-            db.close()
-          })
-        }
-      })
+          db.close()
+        })
+      }
+    })
   })
-  socket.on('disconnect', function(data) {
+  socket.on('disconnect', function (data) {
     console.log('Deleting Socket from database')
     sockets.splice(sockets.indexOf(socket), 1)
     MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
@@ -136,48 +139,50 @@ io.on('connection', function (socket) {
       }
     })
   })
-  socket.on('buttonClicked', function(data) {
+  socket.on('buttonClicked', function (data) {
     for (let i = 0; i < games.length; i++) {
       if (games[i].player1 === data.id) {
         games[i].bullets--
         games[i].socketTwo.emit('yourTurn', {
           player1: games[i].player1,
           player2: games[i].player2,
-          bullets: games[i].bullets,
+          bullets: games[i].bullets
         })
       } else if (games[i].player2 === data.id) {
         games[i].bullets--
         games[i].socketOne.emit('yourTurn', {
           player1: games[i].player2,
           player2: games[i].player1,
-          bullets: games[i].bullets,
+          bullets: games[i].bullets
         })
       }
     }
   })
-  socket.on('rip', function(data) {
+  socket.on('rip', function (data) {
     for (let i = 0; i < games.length; i++) {
       if (games[i].player1 === data.id) {
-        games[i].socketTwo.emit('winner');
-        games.splice(i,1)
+        games[i].socketTwo.emit('winner')
+        games.splice(i, 1)
       } else if (games[i].player2 === data.id) {
         games[i].socketOne.emit('winner')
-        games.splice(i,1)
+        games.splice(i, 1)
       }
     }
   })
 })
 
-
 app.get('/data', (req, res) => {
   MongoClient.connect('mongodb://ds139937.mlab.com:39937/clickclickbang', (err, db) => {
-    db.authenticate(config.username, config.password, (err, responce) => {
-      var collection = db.collection('game');
+    if (err) return console.log(err)
+    db.authenticate(config.username, config.password, (err, response) => {
+      if (err) return console.log(err)
+      var collection = db.collection('game')
       collection.find({
         opponentId: null
-      }).toArray(function(err, docs) {
+      }).toArray(function (err, docs) {
+        if (err) return console.log(err)
         res.send(docs)
       })
     })
-  });
+  })
 })
