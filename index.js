@@ -73,6 +73,12 @@ io.on('connection', function (socket) {
             id: sockets[0].id,
             username: sockets[0].username,
             opponentId: sockets[1].id
+          }).then(() => {
+            sockets[0].emit('join room', {
+              opponentId: sockets[1].id,
+              opponentUsername: sockets[1].username,
+              deadlyBullet: obj.deadlyBullet
+            })
           })
           collection.update({
             id: sockets[1].id
@@ -80,25 +86,20 @@ io.on('connection', function (socket) {
             id: sockets[1].id,
             username: sockets[1].username,
             opponentId: sockets[0].id
-          })
-          sockets[0].emit('join room', {
-            opponentId: sockets[1].id,
-            opponentUsername: sockets[1].username,
-            deadlyBullet: obj.deadlyBullet
-          })
-          sockets[1].emit('join room', {
-            opponentId: sockets[0].id,
-            opponentUsername: sockets[0].username,
-            deadlyBullet: obj.deadlyBullet
+          }).then(() => {
+            sockets[1].emit('join room', {
+              opponentId: sockets[0].id,
+              opponentUsername: sockets[0].username,
+              deadlyBullet: obj.deadlyBullet
+            })
           })
           sockets[Math.round(Math.random())].emit('yourTurn', {
             bullets: obj.bullets,
             deadlyBullet: obj.deadlyBullet
+          }).then(() => {
+            sockets.shift()
+            sockets.shift()
           })
-          setTimeout(function () {
-            sockets.shift()
-            sockets.shift()
-          }, 2500)
         })
       })
     }
