@@ -35,7 +35,7 @@ class Game extends React.Component {
     setInterval(() => {
       const req = new XMLHttpRequest()
       req.addEventListener('load', this.onMongoData)
-      req.open('GET', 'http://clickclickbang.2016.nodeknockout.com/data')
+      req.open('GET', 'https://crashumroullete.herokuapp.com/data')
       req.send()
     }, 1000)
     this.openSocket()
@@ -45,7 +45,7 @@ class Game extends React.Component {
 
     let that = this
 
-    var socket = io('clickclickbang.2016.nodeknockout.com', () => {
+    var socket = io('crashumroullete.herokuapp.com', () => {
       array.push(socket)
       that.setState({ testSocket: array })
     })
