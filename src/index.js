@@ -9,6 +9,9 @@ ReactDOM.render(
   <Router history={browserHistory}>
     <Route path='/' component={LandingPage} />
     <Route path='/game' component={Game} />
+
+    {/* <Route path="*" component={NoMatch}/> */}
+
   </Router>,
   document.getElementById('root')
 )
